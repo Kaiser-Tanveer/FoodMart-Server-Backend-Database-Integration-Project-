@@ -48,6 +48,14 @@ const run = async () => {
             const result = await foodCollection.findOne(query); res.send(result);
         })
 
+
+        // Creating service data in MongoDB 
+        app.post('/services', async (req, res) => {
+            const query = req.body;
+            const service = await reviewCollection.insertOne(review);
+            res.send(service);
+        })
+
         // Get review data from DB 
         app.get('/review', async (req, res) => {
             let query = {};
