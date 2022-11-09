@@ -22,6 +22,8 @@ const run = async () => {
         // creating Services collection in MongoDB 
         const halfCollection = client.db('foodMart').collection('home');
         const foodCollection = client.db('foodMart').collection('services');
+        // MongodB Reviews Collection
+        const reviewCollection = client.db('foodMart').collection('reviews');
 
         // Read from DB
         app.get('/home', async (req, res) => {
@@ -43,10 +45,19 @@ const run = async () => {
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const result = await foodCollection.findOne(query);
-            console.log(result);
-            res.send(result);
+            const result = await foodCollection.findOne(query); res.send(result);
         })
+
+
+
+        // Creating Review data in MongoDB 
+        app.post('/review', async (req, res) => {
+            const review = req.body;
+            const query = await reviewCollection.insertOne(review);
+            res.send(query);
+        })
+
+
     }
     finally {
 
