@@ -48,13 +48,32 @@ const run = async () => {
             const result = await foodCollection.findOne(query); res.send(result);
         })
 
-
+        // Get review data from DB 
+        app.get('/review', async (req, res) => {
+            let query = {};
+            if (req.query.email) {
+                query = {
+                    email: req.query.email
+                }
+            }
+            const cursor = reviewCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        })
 
         // Creating Review data in MongoDB 
         app.post('/review', async (req, res) => {
             const review = req.body;
             const query = await reviewCollection.insertOne(review);
             res.send(query);
+        })
+
+        // Deleting review data from DB 
+        app.delete('/review/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await foodCollection.deleteOne(query);
+            res.send(result);
         })
 
 
