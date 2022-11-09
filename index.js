@@ -52,7 +52,7 @@ const run = async () => {
         // Creating service data in MongoDB 
         app.post('/services', async (req, res) => {
             const query = req.body;
-            const service = await reviewCollection.insertOne(review);
+            const service = await foodCollection.insertOne(review);
             res.send(service);
         })
 
