@@ -1,5 +1,6 @@
-const express = require('express')
+const express = require('express');
 const cors = require('cors');
+var jwt = require('jsonwebtoken');
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 5000;
@@ -25,6 +26,14 @@ const run = async () => {
         // MongodB Reviews Collection
         const reviewCollection = client.db('foodMart').collection('reviews');
 
+
+        // Creating jwt token on DB 
+        app.post('/jwt', (req, res) => {
+            const user = req.body;
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10d" });
+            res.send({ token });
+        })
+
         // Read from DB
         app.get('/home', async (req, res) => {
             const query = {};
@@ -49,10 +58,10 @@ const run = async () => {
         })
 
 
-        // Creating service data in MongoDB 
+        // Creating extra new service data in MongoDB 
         app.post('/services', async (req, res) => {
             const query = req.body;
-            const service = await foodCollection.insertOne(review);
+            const service = await foodCollection.insertOne(query);
             res.send(service);
         })
 
