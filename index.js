@@ -27,13 +27,6 @@ const run = async () => {
         const reviewCollection = client.db('foodMart').collection('reviews');
 
 
-        // Creating jwt token on DB 
-        app.post('/jwt', (req, res) => {
-            const user = req.body;
-            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10d" });
-            res.send({ token });
-        })
-
         // Read from DB
         app.get('/home', async (req, res) => {
             const query = {};
